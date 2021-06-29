@@ -1,3 +1,7 @@
+# DMCA Protection
+*.gb
+*.gbc
+
 # Logs
 logs
 *.log
