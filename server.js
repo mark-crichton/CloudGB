@@ -1,11 +1,33 @@
 const WebSocket = require('ws');
+const yargs = require('yargs');
+
+const argv = yargs
+  .option('port', {
+    alias: 'p',
+    description: 'The port to listen to (defaults to 6666)',
+    type: 'number',
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+
+var PORT = 6666
+if (argv.port) {
+  PORT = argv.port
+}
+
 const server = new WebSocket.Server({
-  port: 6666
+  port: PORT
 });
 
 let sockets = [];
 let gameboys = [];
 let clients = [];
+
+server.on('listening', function open() {
+  console.log("Listening on port " + PORT);
+});
+
 server.on('connection', function(socket) {
   sockets.push(socket);
   console.log("Socket Connected!")

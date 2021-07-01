@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "serverboy": "^0.0.7",
-    "ws": "^7.5.1"
+    "ws": "^7.5.1",
+    "yargs": "^17.0.1"
   }
 }

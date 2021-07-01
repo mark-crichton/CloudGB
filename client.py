@@ -2,6 +2,22 @@ import asyncio
 import websockets
 import pygame
 import numpy as np
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--port", help = 'The port to connect to (defaults to 6666)')
+parser.add_argument("-i", "--ip", help = 'The IP Address to connect to (defaults to localhost)')
+args = parser.parse_args()
+
+IP = "localhost"
+if args.ip:
+    IP = args.ip
+
+PORT = 6666
+if args.port:
+    PORT = args.port
+
+URI = "ws://" + IP + ":" + str(PORT)
 
 SIZE = (160,144)
 FLAGS = pygame.SCALED | pygame.RESIZABLE
@@ -58,6 +74,7 @@ async def gb_loop(ws):
 
 async def gb_client(uri):
     async with websockets.connect(uri) as ws:
+        print("Connected to server at " + IP + ":" + str(PORT))
         await ws.send("C")
         eventFuture = asyncio.ensure_future(eventHandlers(ws))
         socketFuture = asyncio.ensure_future(gb_loop(ws))
@@ -67,4 +84,4 @@ async def gb_client(uri):
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(gb_client('ws://localhost:6666'))
+loop.run_until_complete(gb_client(URI))

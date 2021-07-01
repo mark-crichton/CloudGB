@@ -1,19 +1,54 @@
 const WebSocket = require('ws');
 var gameboy = require('serverboy');
 var fs = require('fs');
+const yargs = require('yargs');
 
-const file_path = "rom.gb"
-ws = new WebSocket('ws://localhost:6666');
+const argv = yargs
+  .option('port', {
+    alias: 'p',
+    description: 'The port to connect to (defaults to 6666)',
+    type: 'number',
+  })
+  .option('ip', {
+    alias: 'i',
+    description: 'The IP Address to connect to (defaults to localhost)',
+    type: 'string',
+  })
+  .option('rom', {
+    alias: 'r',
+    description: 'The path to the rom file (defaults to rom.gb in the current directory)',
+    type: 'string',
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+
+const FRAMEOUT = 5
+
+var PORT = 6666
+if (argv.port) {
+  PORT = argv.port
+}
+
+var IP = "localhost"
+if (argv.ip) {
+  IP = argv.ip
+}
+
+var file_path = "rom.gb"
+if (argv.rom) {
+  file_path = argv.rom
+}
+
+ws = new WebSocket('ws://' + IP + ':' + PORT);
 
 var connected = false;
 var input = "00000000";
 
-var FRAMEOUT = 5
-
 var connection = function( ) {
 
   ws.on('open', function() {
-    console.log('Server Connected!');
+    console.log('Connected to server at ' + IP + ":" + PORT);
     connected = true;
     ws.send("G");
   });
