@@ -19,11 +19,19 @@ const argv = yargs
     description: 'The path to the rom file (defaults to rom.gb in the current directory)',
     type: 'string',
   })
+  .option('frames', {
+    alias: 'f',
+    description: 'At 120 fps, send every \"n\"th frame to the client (defaults to every 10th frame)',
+    type: 'number',
+  })
   .help()
   .alias('help', 'h')
   .argv;
 
-const FRAMEOUT = 5
+var FRAMEOUT = 10
+if (argv.frames) {
+  FRAMEOUT = argv.frames
+}
 
 var PORT = 6666
 if (argv.port) {
@@ -78,27 +86,27 @@ var serveboy = function( ) {
   var gb_instance = new gameboy();
   var rom = fs.readFileSync(file_path);
   gb_instance.loadRom(rom)
-  var frames = 0; var lastFrame = undefined; var currentFrame = undefined;
+  var frames = 0; var currentScreen = undefined;
   var emulatorLoop = function() {
-    var keys = []
-    for (let i = 0; i < 8; i++) {
-      if (input[i] == "1") {
-        keys.push(i)
+    for (let j = 0; j < 2; j++) {
+      var keys = []
+      for (let i = 0; i < 8; i++) {
+        if (input[i] == "1") {
+          keys.push(i)
+        }
+      }
+      gb_instance.pressKeys(keys);
+      currentScreen = gb_instance.doFrame();
+      frames++;
+    
+      if(frames%FRAMEOUT === 0) {
+        if(connected) {
+          encoded = currentScreen.map(encodeStream);
+          stream = "V" + String(encoded);
+          ws.send(stream);
+        }
       }
     }
-    var start = process.hrtime();
-    gb_instance.pressKeys(keys);
-    currentScreen = gb_instance.doFrame();
-    frames++;
-    if(frames%FRAMEOUT === 0) {
-      if(connected) {
-        encoded = currentScreen.map(encodeStream);
-        stream = "V" + String(encoded);
-        ws.send(stream);
-      }
-    }
-
-    var elapsed = process.hrtime(start)[1] / 1000000;
     setTimeout(emulatorLoop, 5);
   };
 
