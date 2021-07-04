@@ -1,7 +1,6 @@
 import asyncio
 import websockets
 import pygame
-import numpy as np
 import argparse
 
 parser = argparse.ArgumentParser()
