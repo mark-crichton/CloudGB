@@ -21,7 +21,7 @@ const argv = yargs
   })
   .option('frames', {
     alias: 'f',
-    description: 'At 120 fps, send every \"n\"th frame to the client (defaults to every 10th frame)',
+    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 10th frame)',
     type: 'number',
   })
   .help()
@@ -88,7 +88,7 @@ var serveboy = function( ) {
   gb_instance.loadRom(rom)
   var frames = 0; var currentScreen = undefined;
   var emulatorLoop = function() {
-    for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < 1; j++) {
       var keys = []
       for (let i = 0; i < 8; i++) {
         if (input[i] == "1") {
@@ -98,7 +98,7 @@ var serveboy = function( ) {
       gb_instance.pressKeys(keys);
       currentScreen = gb_instance.doFrame();
       frames++;
-    
+
       if(frames%FRAMEOUT === 0) {
         if(connected) {
           encoded = currentScreen.map(encodeStream);
