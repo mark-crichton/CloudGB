@@ -21,14 +21,14 @@ const argv = yargs
   })
   .option('frames', {
     alias: 'f',
-    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 10th frame)',
+    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 5th frame)',
     type: 'number',
   })
   .help()
   .alias('help', 'h')
   .argv;
 
-var FRAMEOUT = 10
+var FRAMEOUT = 5
 if (argv.frames) {
   FRAMEOUT = argv.frames
 }
