@@ -1,13 +1,13 @@
 # CloudGB
 
-A GameBoy emulator that streams its video output over the Internet using WebSockets 
+A GameBoy emulator that streams its video output over the Internet using WebSockets
 
 # Install Dependencies
 ```
 npm install
 ```
 ```
-pip install --upgrade pygame websockets
+pip install --upgrade pygame websockets PySimpleGUIQt
 ```
 
 # Running the application
