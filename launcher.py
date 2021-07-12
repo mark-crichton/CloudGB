@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import PySimpleGUIQt as sg
 import sys, subprocess
 from os.path import dirname, abspath
