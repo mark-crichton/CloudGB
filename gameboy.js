@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 var gameboy = require('serverboy');
 var fs = require('fs');
 const yargs = require('yargs');
+var os = require('os');
 
 const argv = yargs
   .option('port', {
@@ -32,6 +33,11 @@ var FRAMEOUT = 5
 if (argv.frames) {
   FRAMEOUT = argv.frames
 }
+var emuLoops = 1
+if (os.platform() == "win32") {
+  emuLoops = 2
+}
+FRAMEOUT *= emuLoops
 
 var PORT = 6666
 if (argv.port) {
@@ -88,7 +94,7 @@ var serveboy = function( ) {
   gb_instance.loadRom(rom)
   var frames = 0; var currentScreen = undefined;
   var emulatorLoop = function() {
-    for (let j = 0; j < 1; j++) {
+    for (let j = 0; j < emuLoops; j++) {
       var keys = []
       for (let i = 0; i < 8; i++) {
         if (input[i] == "1") {
