@@ -22,17 +22,18 @@ const argv = yargs
   })
   .option('frames', {
     alias: 'f',
-    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 5th frame)',
+    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 6th frame)',
     type: 'number',
   })
   .help()
   .alias('help', 'h')
   .argv;
 
-var FRAMEOUT = 5
+var FRAMEOUT = 6
 if (argv.frames) {
   FRAMEOUT = argv.frames
 }
+
 var emuLoops = 1
 if (os.platform() == "win32") {
   emuLoops = 2
