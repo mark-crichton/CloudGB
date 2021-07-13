@@ -37,7 +37,6 @@ var emuLoops = 1
 if (os.platform() == "win32") {
   emuLoops = 2
 }
-FRAMEOUT *= emuLoops
 
 var PORT = 6666
 if (argv.port) {
