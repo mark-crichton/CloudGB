@@ -1,6 +1,6 @@
 # CloudGB
 
-An implementation of serverboy.js that streams its video output over the Internet using WebSockets
+An implementation of [serverboy.js](https://gitlab.com/piglet-plays/serverboy.js) that streams its video output over the Internet using WebSockets
 
 # Install Dependencies
 ```
