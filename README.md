@@ -23,3 +23,7 @@ To run the python client:
 ```
 python client.py -i [IP] -p [PORT]
 ```
+You can also use the GUI launcher:
+```
+python launcher.py
+```
