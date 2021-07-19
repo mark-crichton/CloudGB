@@ -4,14 +4,14 @@ const yargs = require('yargs');
 const argv = yargs
   .option('port', {
     alias: 'p',
-    description: 'The port to listen to (defaults to 6666)',
+    description: 'The port to listen to (defaults to 6664)',
     type: 'number',
   })
   .help()
   .alias('help', 'h')
   .argv;
 
-var PORT = 6666
+var PORT = 6664
 if (argv.port) {
   PORT = argv.port
 }

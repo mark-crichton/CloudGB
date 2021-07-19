@@ -7,7 +7,7 @@ var os = require('os');
 const argv = yargs
   .option('port', {
     alias: 'p',
-    description: 'The port to connect to (defaults to 6666)',
+    description: 'The port to connect to (defaults to 6664)',
     type: 'number',
   })
   .option('ip', {
@@ -39,7 +39,7 @@ if (os.platform() == "win32") {
   emuLoops = 2
 }
 
-var PORT = 6666
+var PORT = 6664
 if (argv.port) {
   PORT = argv.port
 }

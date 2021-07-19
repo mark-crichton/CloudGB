@@ -5,7 +5,7 @@ import pygame
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--port", help = 'The port to connect to (defaults to 6666)')
+parser.add_argument("-p", "--port", help = 'The port to connect to (defaults to 6664)')
 parser.add_argument("-i", "--ip", help = 'The IP Address to connect to (defaults to localhost)')
 args = parser.parse_args()
 
@@ -13,7 +13,7 @@ IP = "localhost"
 if args.ip:
     IP = args.ip
 
-PORT = 6666
+PORT = 6664
 if args.port:
     PORT = args.port
 
