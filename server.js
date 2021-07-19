@@ -24,6 +24,14 @@ let sockets = [];
 let gameboys = [];
 let clients = [];
 
+function logSockets() {
+  console.log("")
+  console.log("Number of Sockets: " + sockets.length)
+  console.log("Gameboys: " + gameboys.length)
+  console.log("Clients: " + clients.length)
+  console.log("")
+}
+
 server.on('listening', function open() {
   console.log("Listening on port " + PORT);
 });
@@ -38,18 +46,19 @@ server.on('connection', function(socket) {
       console.log("Is Gameboy");
       gameboys.push(socket);
       clients = clients.filter(s => s !== socket);
+      logSockets()
     }
     else if (msg[0] == "C") {
       console.log("Is Client");
       clients.push(socket);
       gameboys = gameboys.filter(s => s !== socket);
+      logSockets()
     }
     else if (msg[0] == "I") {
       console.log("Input Stream");
       gameboys.forEach(s => s.send(msg));
     }
     else if (msg[0] == "V") {
-      console.log("Video Stream");
       clients.forEach(s => s.send(msg));
     };
   });
@@ -60,5 +69,6 @@ server.on('connection', function(socket) {
     gameboys = gameboys.filter(s => s !== socket);
     clients = clients.filter(s => s !== socket);
     console.log("Socket Disconnected!")
+    logSockets()
   });
 });
