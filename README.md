@@ -7,7 +7,7 @@ An implementation of [serverboy.js](https://gitlab.com/piglet-plays/serverboy.js
 npm install
 ```
 ```
-pip install --upgrade pygame websockets PySimpleGUIQt
+pip install --upgrade pygame websockets PySimpleGUIQt PySide2
 ```
 
 # Running the application
