@@ -45,10 +45,10 @@ async def eventHandlers(ws):
                 input[keyMap.index(event.key)] = 0
                 inputChanged = True
         if inputChanged:
-            inputStr = ""
+            inputStr = "I"
             for num in input:
                 inputStr += str(num)
-            await ws.send("I" + inputStr)
+            await ws.send(inputStr)
         await asyncio.sleep(1/60)
 
 
