@@ -29,7 +29,7 @@ async def eventHandlers(ws):
     running = True
     # { RIGHT: 0, LEFT: 1, UP: 2, DOWN: 3, A: 4, B: 5, SELECT: 6, START: 7 }
     keyMap = (pygame.K_RIGHT,pygame.K_LEFT,pygame.K_UP,pygame.K_DOWN,
-    pygame.K_z,pygame.K_x,pygame.K_TAB,pygame.K_RETURN)
+    pygame.K_z,pygame.K_x,pygame.K_BACKSLASH,pygame.K_RETURN)
     input = [0,0,0,0,0,0,0,0]
 
     while running:
