@@ -55,7 +55,6 @@ server.on('connection', function(socket) {
       logSockets()
     }
     else if (msg[0] == "I") {
-      console.log("Input Stream");
       gameboys.forEach(s => s.send(msg));
     }
     else if (msg[0] == "V") {
