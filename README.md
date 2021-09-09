@@ -13,15 +13,15 @@ pip3 install --upgrade pygame websockets PySimpleGUIQt PySide2
 # Running the application
 To run the server:
 ```
-node server.js -p [PORT]
+node server.js
 ```
 To run the gameboy emulator:
 ```
-node gameboy.js -i [IP] -p [PORT] -r [PATH/TO/ROM/FILE]
+node gameboy.js
 ```
 To run the python client:
 ```
-python3 client.py -i [IP] -p [PORT]
+python3 client.py
 ```
 You can also use the GUI launcher:
 ```
