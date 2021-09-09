@@ -59,7 +59,7 @@ def parseStream(stream):
     color = []
     pixelArray = pygame.PixelArray(screen)
     for hex in stream:
-        color.append(int(hex, 16))
+        color.append(ord(hex))
         if len(color) == 4:
             pixelPos = (int(currPixel % SIZE[0]), int(currPixel / SIZE[0]))
             pixelArray[pixelPos] = pygame.Color(color)
@@ -71,7 +71,7 @@ def parseStream(stream):
 async def gb_loop(ws):
     async for msg in ws:
         if msg[0] == "V":
-            stream = msg[1:].split(",")
+            stream = list(msg[1:])
             parseStream(stream)
 
 async def gb_client(uri):

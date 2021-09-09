@@ -92,7 +92,7 @@ var connection = function( ) {
 }
 
 function encodeStream(colorByte) {
-  return colorByte.toString(16)
+  return String.fromCharCode(colorByte)
 }
 
 var serveboy = function( ) {
@@ -115,7 +115,7 @@ var serveboy = function( ) {
       if(frames%FRAMEOUT === 0) {
         if(connected) {
           encoded = currentScreen.map(encodeStream);
-          stream = "V" + String(encoded);
+          stream = "V" + encoded.join("");
           ws.send(stream);
         }
       }
