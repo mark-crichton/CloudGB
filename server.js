@@ -6,18 +6,14 @@ const argv = yargs
     alias: 'p',
     description: 'The port to listen to (defaults to 6664)',
     type: 'number',
+    default: 6664
   })
   .help()
   .alias('help', 'h')
   .argv;
 
-var PORT = 6664
-if (argv.port) {
-  PORT = argv.port
-}
-
 const server = new WebSocket.Server({
-  port: PORT
+  port: argv.port
 });
 
 let sockets = [];
@@ -33,7 +29,7 @@ function logSockets() {
 }
 
 server.on('listening', function open() {
-  console.log("Listening on port " + PORT);
+  console.log("Listening on port " + argv.port);
 });
 
 server.on('connection', function(socket) {
