@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
-import asyncio
-import websockets
-import pygame
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--port", help = 'The port to connect to (defaults to 6664)')
-parser.add_argument("-i", "--ip", help = 'The IP Address to connect to (defaults to localhost)')
+parser.add_argument("-p", "--port", help = 'The port to connect to (defaults to 6664)', type=int, default=6664)
+parser.add_argument("-d", "--domain", help = 'The domain or IP address to connect to (defaults to localhost)', type=str, default="localhost")
+parser.add_argument("-s", "--secure", help = 'If present, the client will connect to a secured server', action="store_true")
+parser.add_argument("-l", "--location", help = 'If specified, the client will connect to the server served at that location', type=str, default="")
 args = parser.parse_args()
 
-IP = "localhost"
-if args.ip:
-    IP = args.ip
+PROTOCOL = "ws://"
+if args.secure:
+    PROTOCOL = "wss://"
 
-PORT = 6664
-if args.port:
-    PORT = args.port
 
-URI = "ws://" + IP + ":" + str(PORT)
+SERVER = args.domain + ":" + str(args.port) + args.location
+
+URI = PROTOCOL + SERVER
+
+import pygame # Import here because the program will quit early if help is specified
+import asyncio
+import websockets
 
 SIZE = (160,144)
 FLAGS = pygame.SCALED | pygame.RESIZABLE
@@ -74,7 +76,7 @@ async def gb_loop(ws):
 
 async def gb_client(uri):
     async with websockets.connect(uri) as ws:
-        print("Connected to server at " + IP + ":" + str(PORT))
+        print("Connected to server at " + SERVER)
         await ws.send("C")
         eventFuture = asyncio.ensure_future(eventHandlers(ws))
         socketFuture = asyncio.ensure_future(gb_loop(ws))

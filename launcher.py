@@ -13,9 +13,10 @@ script = pythonPath + " " + clientScript
 
 # Define the window's contents
 layout = [[sg.Text("CloudGB Python Launcher")],
-          [sg.Text("IP Address"), sg.Input(key='-IP-')],
-          [sg.Text("Port"), sg.Input(key='-PORT-')],
-          [sg.Button('Connect'), sg.Button('Quit')],
+          [sg.Text("Domain"), sg.Input("localhost", key='-DOMAIN-')],
+          [sg.Text("Location"), sg.Input(key='-LOCATION-')],
+          [sg.Text("Port"), sg.Input("6664", key='-PORT-'), sg.Checkbox("Secure", key='-SECURE-')],
+          [sg.Button('Connect', bind_return_key=True), sg.Button('Quit')],
           [sg.Text("Output")],
           [sg.Output()]]
 
@@ -29,7 +30,14 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
     elif event == 'Connect':
-        command = script + " -i " + values["-IP-"] + " -p " + values["-PORT-"]
+        secure_flag = ""
+        if values["-SECURE-"]:
+            secure_flag = " --secure "
+        location_flag = ""
+        if values["-LOCATION-"] != "":
+            location_flag = " --location " + values["-LOCATION-"]
+        command = script + " --domain " + values["-DOMAIN-"] + " --port " + \
+        values["-PORT-"] + location_flag + secure_flag
         print(command)
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 

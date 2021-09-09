@@ -7,54 +7,61 @@ var os = require('os');
 const argv = yargs
   .option('port', {
     alias: 'p',
-    description: 'The port to connect to (defaults to 6664)',
+    description: 'The port to connect to',
     type: 'number',
+    default: 6664,
   })
-  .option('ip', {
-    alias: 'i',
-    description: 'The IP Address to connect to (defaults to localhost)',
+  .option('domain', {
+    alias: 'd',
+    description: 'The domain or IP address to connect to',
     type: 'string',
+    default: "localhost",
+  })
+  .option('secure', {
+    alias: 's',
+    description: 'If present, the client will connect to a secured server',
+    type: 'boolean',
+  })
+  .option('location', {
+    alias: 'l',
+    description: 'If present, the client will connect to the server served at that location',
+    type: 'string',
+    default: "",
   })
   .option('rom', {
     alias: 'r',
-    description: 'The path to the rom file (defaults to rom.gb in the current directory)',
+    description: 'The path to the rom file',
     type: 'string',
+    default: "rom.gb",
   })
   .option('frames', {
     alias: 'f',
-    description: 'At 60 fps, send every \"n\"th frame to the client (defaults to every 6th frame)',
+    description: 'At 60 fps, send every \"n\"th frame to the client',
     type: 'number',
+    default: 6
   })
   .help()
   .alias('help', 'h')
   .argv;
 
-var FRAMEOUT = 6
-if (argv.frames) {
-  FRAMEOUT = argv.frames
-}
+var FRAMEOUT = argv.frames
 
 var emuLoops = 1
 if (os.platform() == "win32") {
   emuLoops = 2
 }
 
-var PORT = 6664
-if (argv.port) {
-  PORT = argv.port
+var PROTOCOL = "ws://"
+if (argv.secure) {
+  PROTOCOL = "wss://"
 }
 
-var IP = "localhost"
-if (argv.ip) {
-  IP = argv.ip
-}
+var file_path = argv.rom
 
-var file_path = "rom.gb"
-if (argv.rom) {
-  file_path = argv.rom
-}
+var SERVER = argv.domain + ":" + argv.port + argv.location
+var URI = PROTOCOL + SERVER
 
-ws = new WebSocket('ws://' + IP + ':' + PORT);
+ws = new WebSocket(URI);
 
 var connected = false;
 var input = "00000000";
@@ -62,7 +69,7 @@ var input = "00000000";
 var connection = function( ) {
 
   ws.on('open', function() {
-    console.log('Connected to server at ' + IP + ":" + PORT);
+    console.log('Connected to server at ' + SERVER);
     connected = true;
     ws.send("G");
   });
