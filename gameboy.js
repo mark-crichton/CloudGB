@@ -38,7 +38,7 @@ const argv = yargs
     alias: 'f',
     description: 'At 60 fps, send every \"n\"th frame to the client',
     type: 'number',
-    default: 6
+    default: 8
   })
   .help()
   .alias('help', 'h')
