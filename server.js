@@ -50,7 +50,7 @@ server.on('connection', function(socket) {
       gameboys = gameboys.filter(s => s !== socket);
       logSockets()
     }
-    else if (msg.length <= 8) {
+    else if (msg.length <= 100) { // Arbitrary since messages sizes vary immensely
       gameboys.forEach(s => s.send(msg));
     }
     else {

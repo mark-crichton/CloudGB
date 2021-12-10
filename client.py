@@ -50,6 +50,7 @@ async def eventHandlers(ws):
             inputStr = "I"
             for num in input:
                 inputStr += str(num)
+            print(inputStr)
             await ws.send(inputStr)
         await asyncio.sleep(1/60)
 
@@ -59,7 +60,7 @@ def parseStream(stream):
     color = []
     pixelArray = pygame.PixelArray(screen)
     for hex in stream:
-        color.append(ord(hex))
+        color.append(hex)
         if len(color) == 4:
             pixelPos = (int(currPixel % SIZE[0]), int(currPixel / SIZE[0]))
             pixelArray[pixelPos] = pygame.Color(color)
@@ -70,9 +71,8 @@ def parseStream(stream):
 
 async def gb_loop(ws):
     async for msg in ws:
-        if msg[0] == "V":
-            stream = list(msg[1:])
-            parseStream(stream)
+        stream = list(msg)
+        parseStream(stream)
 
 async def gb_client(uri):
     async with websockets.connect(uri) as ws:
