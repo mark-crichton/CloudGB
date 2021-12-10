@@ -54,7 +54,6 @@ server.on('connection', function(socket) {
       gameboys.forEach(s => s.send(msg));
     }
     else {
-      console.log(msg);
       clients.forEach(s => s.send(msg));
     };
   });
