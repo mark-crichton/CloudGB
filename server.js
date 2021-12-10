@@ -38,7 +38,6 @@ server.on('connection', function(socket) {
 
   socket.on('message', function(msg) {
     // Handle messages
-    console.log(msg);
     if (msg[0] == "G") {
       console.log("Is Gameboy");
       gameboys.push(socket);
@@ -55,6 +54,7 @@ server.on('connection', function(socket) {
       gameboys.forEach(s => s.send(msg));
     }
     else {
+      console.log(msg);
       clients.forEach(s => s.send(msg));
     };
   });
