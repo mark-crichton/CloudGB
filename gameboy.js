@@ -38,7 +38,7 @@ const argv = yargs
     alias: 'f',
     description: 'At 60 fps, send every \"n\"th frame to the client',
     type: 'number',
-    default: 8
+    default: 10
   })
   .help()
   .alias('help', 'h')
@@ -75,9 +75,7 @@ var connection = function( ) {
   });
 
   ws.on('message', function(message) {
-    if (message[0] == "I"){
-      input = message.substr(1,8)
-    };
+    input = message
   });
 
   ws.on('error', function(err) {

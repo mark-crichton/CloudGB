@@ -24,16 +24,16 @@ import websockets
 SIZE = (160,144)
 FLAGS = pygame.SCALED | pygame.RESIZABLE
 screen = pygame.display.set_mode(SIZE, FLAGS)
+pygame.display.set_caption("CloudGB")
 
 pygame.init()
 
 async def eventHandlers(ws):
     running = True
     # { RIGHT: 0, LEFT: 1, UP: 2, DOWN: 3, A: 4, B: 5, SELECT: 6, START: 7 }
-    keyMap = (pygame.K_RIGHT,pygame.K_LEFT,pygame.K_UP,pygame.K_DOWN,
-    pygame.K_z,pygame.K_x,pygame.K_BACKSLASH,pygame.K_RETURN)
-    input = [0,0,0,0,0,0,0,0]
-
+    keyMap = (pygame.K_d,pygame.K_a,pygame.K_w,pygame.K_s,
+    pygame.K_PERIOD,pygame.K_COMMA,pygame.K_LEFTBRACKET,pygame.K_RIGHTBRACKET)
+    input = bytearray([0,0,0,0,0,0,0,0])
     while running:
         inputChanged = False
         for event in pygame.event.get():
@@ -47,11 +47,7 @@ async def eventHandlers(ws):
                 input[keyMap.index(event.key)] = 0
                 inputChanged = True
         if inputChanged:
-            inputStr = "I"
-            for num in input:
-                inputStr += str(num)
-            print(inputStr)
-            await ws.send(inputStr)
+            await ws.send(input)
         await asyncio.sleep(1/60)
 
 
