@@ -91,15 +91,12 @@ var connection = function( ) {
   });
 }
 
-function encodeStream(colorByte) {
-  return String.fromCharCode(colorByte)
-}
-
 var serveboy = function( ) {
   var gb_instance = new gameboy();
   var rom = fs.readFileSync(file_path);
   gb_instance.loadRom(rom)
   var frames = 0; var currentScreen = undefined;
+  var screenBuffer = new Uint8Array(160 * 144 * 4);
   var emulatorLoop = function() {
     for (let j = 0; j < emuLoops; j++) {
       var keys = []
@@ -114,9 +111,10 @@ var serveboy = function( ) {
 
       if(frames%FRAMEOUT === 0) {
         if(connected) {
-          encoded = currentScreen.map(encodeStream);
-          stream = "V" + encoded.join("");
-          ws.send(stream);
+          for (var i = 0; i < screenBuffer.length; i++) {
+            screenBuffer[i] = currentScreen[i];
+          }
+          ws.send(screenBuffer);
         }
       }
     }

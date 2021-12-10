@@ -50,10 +50,10 @@ server.on('connection', function(socket) {
       gameboys = gameboys.filter(s => s !== socket);
       logSockets()
     }
-    else if (msg[0] == "I") {
+    else if (msg.length <= 8) {
       gameboys.forEach(s => s.send(msg));
     }
-    else if (msg[0] == "V") {
+    else {
       clients.forEach(s => s.send(msg));
     };
   });
